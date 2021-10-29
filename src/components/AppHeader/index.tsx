@@ -9,7 +9,7 @@ export const AppHeader = ({ children }: Props): JSX.Element => {
     <>
       <header className="App-header">
         <span>
-          <img src="./src/octopus.svg" alt="logo" height="40px"/>{" "}
+          <img src="octopus.svg" alt="logo" height="40px"/>{" "}
           GitHub Repo Search</span>
         {children}
       </header>
