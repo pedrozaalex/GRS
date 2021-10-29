@@ -14,7 +14,7 @@ export const Searchbar = ({ value, onChange }: Props) => {
         onChange={onChange}
         placeholder="Search repos"
       />
-      <img src="src/search.svg" alt="search" width="30px" />
+      <img src="./src/search.svg" alt="search" width="30px" />
     </div>
   );
 };
