@@ -1,4 +1,5 @@
 import "./styles.sass";
+import search from './search.svg'
 
 type Props = {
   value: string;
@@ -14,7 +15,7 @@ export const Searchbar = ({ value, onChange }: Props) => {
         onChange={onChange}
         placeholder="Search repos"
       />
-      <img src="search.svg" alt="search" width="30px" />
+      <img src={search} alt="search" width="30px" />
     </div>
   );
 };
