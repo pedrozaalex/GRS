@@ -11,4 +11,5 @@ The app can be ran locally by following these steps:
  3. Open the newly created folder by running `cd GRS`
  4. Install the libraries with `yarn`
  5. Create a new GitHub API access token [here](https://github.com/settings/tokens) and put the token on the .env file under the key `VITE_GITHUB_API_TOKEN`
- 6. Now just `yarn dev` to start and access http://localhost:3000/ to enjoy all the GitHub repo searching you've always wanted!
+ 6. Now just `yarn dev` to start and access http://localhost:3000/
+ 7. Alternatively, you can simply go [here](https://grs-umber.vercel.app/) to enjoy all the GitHub repo searching you've always wanted, no building required!
