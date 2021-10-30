@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.sass
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.ttf
