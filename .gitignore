@@ -8,6 +8,9 @@
 logs
 **/*.backup.*
 **/*.back.*
+dist/
+.env
+
 
 node_modules
 bower_components
@@ -45,7 +48,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,react
-
-# Vite
-dist
-.env
