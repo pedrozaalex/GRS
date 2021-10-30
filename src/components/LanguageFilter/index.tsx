@@ -51,7 +51,7 @@ export default function LanguageFilter({
 
   return (
     <div className="language-filter">
-      <h3>Filter by language</h3>
+      {!!selectableLanguages.length && <h3>Filter by language</h3>}
       <ul>
         {selectableLanguages.map((lang) => (
           <LanguageLabel
