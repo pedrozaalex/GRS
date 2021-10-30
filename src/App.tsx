@@ -1,51 +1,42 @@
-import "./App.sass";
-import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
-import useDebouncedState from "./useDebouncedState";
-import { SearchResult } from "./github/types";
-import { SearchReposQuery } from "./github/queries";
-import { RepoList } from "./components/RepoList";
-import { AppHeader } from "./components/AppHeader";
-import { Searchbar } from "./components/Searchbar";
-import { MainContainer } from "./components/MainContainer";
-import LanguageFilter from "./components/LanguageFilter";
-import { treatSearchResult } from "./github/treatSearchResult";
+import './App.sass';
+import { useQuery } from '@apollo/client';
+import { useEffect, useState } from 'react';
+import useDebouncedState from './useDebouncedState';
+import { SearchResult, TreatedSearchResult } from './github/types';
+import { SearchReposQuery } from './github/queries';
+import { RepoList } from './components/RepoList';
+import { AppHeader } from './components/AppHeader';
+import { Searchbar } from './components/Searchbar';
+import { MainContainer } from './components/MainContainer';
+import LanguageFilter from './components/LanguageFilter';
+import { treatSearchResult } from './github/treatSearchResult';
+import { LanguageRecord } from './interfaces/LanguageRecord';
 
-export type LanguageRecord = {
-  [id: string]: {
-    langName: string;
-    langColor: string;
-    isSelected: boolean;
-  };
-};
-
-function App() {
-  const [search, setSearch] = useState("");
-  const [searchInput, setSearchInput] = useDebouncedState("", () =>
-    setSearch(searchInput)
-  );
-
-  const [globalLanguageList, setGlobalLanguageList] = useState<LanguageRecord>(
-    {}
-  );
+function App(): JSX.Element {
+  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useDebouncedState<string>('', () => setSearch(searchInput));
+  const [globalLanguageList, setGlobalLanguageList] = useState<LanguageRecord>({});
+  const [treatedSearchResult, setTreatedSearchResult] = useState<TreatedSearchResult>({
+    repoCount: 0,
+    repositories: [],
+  });
 
   const searchResult = useQuery<SearchResult>(SearchReposQuery, {
     variables: {
       queryString: search,
     },
   });
+  const { data: searchResultdata, loading: isSearchLoading, error: searchError } = searchResult;
 
-  const {
-    data: searchdata,
-    loading: isSearchLoading,
-    error: searchError,
-  } = searchResult;
-  const treatedData = treatSearchResult(searchdata);
+  // treat data whenever search result changes
+  useEffect(() => {
+    setTreatedSearchResult(treatSearchResult(searchResultdata));
+  }, [searchResultdata]);
 
-  // update language list when search result is updated
+  // update language list when treated search result changes
   useEffect(() => {
     const newLanguageList: LanguageRecord = {};
-    treatedData.repositories.forEach((repo) => {
+    treatedSearchResult.repositories.forEach((repo) => {
       repo.languages?.forEach((language) => {
         if (!newLanguageList[language.id]) {
           newLanguageList[language.id] = {
@@ -56,17 +47,15 @@ function App() {
         }
       });
     });
+
     setGlobalLanguageList(newLanguageList);
-  }, [searchResult.data]);
+  }, [treatedSearchResult]);
 
   return (
     <>
       <div className="App">
         <AppHeader>
-          <Searchbar
-            onChange={(e) => setSearchInput(e.target.value)}
-            value={searchInput}
-          />
+          <Searchbar onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
         </AppHeader>
 
         <MainContainer>
@@ -78,7 +67,7 @@ function App() {
                 setGlobalLanguageList={setGlobalLanguageList}
               />
               <RepoList
-                data={treatedData}
+                data={treatedSearchResult}
                 loading={isSearchLoading}
                 error={searchError}
                 globalLanguagesList={globalLanguageList}
@@ -86,7 +75,7 @@ function App() {
               />
             </>
           ) : (
-            "Enter a search query to begin"
+            'Enter a search query to begin'
           )}
         </MainContainer>
       </div>

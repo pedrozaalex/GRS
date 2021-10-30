@@ -1,12 +1,12 @@
-import { LanguageRecord } from "../../App";
-import { LanguageLabel } from "../LanguageLabel";
+import { LanguageRecord } from '../../interfaces/LanguageRecord';
+import { LanguageLabel } from '../LanguageLabel';
 
-type LanguageFilter = {
+type LanguageFilterType = {
   langId: string;
   langName: string;
   langColor: string;
   isSelected: boolean;
-  onClick: (langName: string) => void;
+  onClick: (_langName: string) => void;
 };
 
 type Props = {
@@ -18,7 +18,7 @@ export const toggleLanguage = (
   langId: string,
   globalLanguageList: LanguageRecord,
   setGlobalLanguageList: (languages: LanguageRecord) => void
-) => {
+): void => {
   // set new global language list when a language is toggled
   const newGlobalLanguageList = {
     ...globalLanguageList,
@@ -30,8 +30,11 @@ export const toggleLanguage = (
   setGlobalLanguageList(newGlobalLanguageList);
 };
 
-export default function LanguageFilter({ globalLanguageList, setGlobalLanguageList }: Props) {
-  const selectableLanguages: LanguageFilter[] = [];
+export default function LanguageFilter({
+  globalLanguageList,
+  setGlobalLanguageList,
+}: Props): JSX.Element {
+  const selectableLanguages: LanguageFilterType[] = [];
 
   // fill selectableLanguages with languages stored in props
   for (const [langId, langData] of Object.entries(globalLanguageList)) {

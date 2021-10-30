@@ -1,9 +1,9 @@
-import "./styles.sass";
-import { TreatedRepo } from "../../github/types";
-import { LanguageLabel } from "../LanguageLabel";
-import { LanguageRecord } from "../../App";
-import { toggleLanguage } from "../LanguageFilter";
-import { isEmpty } from "../../utils/isEmpty";
+import './styles.sass';
+import { TreatedRepo } from '../../github/types';
+import { LanguageLabel } from '../LanguageLabel';
+import { toggleLanguage } from '../LanguageFilter';
+import { isEmpty } from '../../utils/isEmpty';
+import { LanguageRecord } from '../../interfaces/LanguageRecord';
 
 type RepoCardProps = {
   data: TreatedRepo;
@@ -51,27 +51,17 @@ export const RepoCard = (props: RepoCardProps): JSX.Element => {
         )}
         <p>{owner?.login}</p>
         <div>
-          {languages?.map((lang) => {
-            return (
-              <LanguageLabel
-                key={lang.name}
-                language={lang}
-                isSelected={globalLanguagesList[lang.id].isSelected}
-                onClick={() =>
-                  toggleLanguage(
-                    lang.id,
-                    globalLanguagesList,
-                    setGlobalLanguagesList
-                  )
-                }
-              />
-            );
-          })}
+          {languages?.map((lang) => (
+            <LanguageLabel
+              key={lang.name}
+              language={lang}
+              isSelected={globalLanguagesList[lang.id].isSelected}
+              onClick={() => toggleLanguage(lang.id, globalLanguagesList, setGlobalLanguagesList)}
+            />
+          ))}
         </div>
         <p>{stargazerCount} 🌟</p>
-        {licenseInfo?.key && (
-          <a href={licenseInfo.url}>{licenseInfo.key.toLocaleUpperCase()}</a>
-        )}
+        {licenseInfo?.key && <a href={licenseInfo.url}>{licenseInfo.key.toLocaleUpperCase()}</a>}
       </li>
     </>
   );

@@ -1,12 +1,12 @@
-import "./styles.sass";
-import { ApolloError } from "@apollo/client";
-import { useMemo } from "react";
-import { TreatedRepo, TreatedSearchResult } from "../../github/types";
-import { RepoCard } from "../RepoCard";
-import { Spinner } from "../Spinner";
-import { LanguageRecord } from "../../App";
-import { shouldRepoBeFiltered } from "../../utils/shouldRepoBeFiltered";
-import { langRecordToFilters } from "../../utils/langRecordToFilters";
+import './styles.sass';
+import { ApolloError } from '@apollo/client';
+import { useMemo } from 'react';
+import { TreatedRepo, TreatedSearchResult } from '../../github/types';
+import { RepoCard } from '../RepoCard';
+import { Spinner } from '../Spinner';
+import { shouldRepoBeFiltered } from '../../utils/shouldRepoBeFiltered';
+import { langRecordToFilters } from '../../utils/langRecordToFilters';
+import { LanguageRecord } from '../../interfaces/LanguageRecord';
 
 type RepoListProps = {
   data: TreatedSearchResult;
@@ -22,14 +22,15 @@ export const RepoList = ({
   data,
   globalLanguagesList,
   setGlobalLanguagesList,
-}: RepoListProps) => {
+}: RepoListProps): JSX.Element => {
   const repos = data.repositories;
 
   const selectedFilters: string[] = langRecordToFilters(globalLanguagesList);
 
-  const filteredRepos = useMemo<TreatedRepo[]>(() => {
-    return repos.filter((repo) => !shouldRepoBeFiltered(repo, selectedFilters));
-  }, [repos, selectedFilters]);
+  const filteredRepos = useMemo<TreatedRepo[]>(
+    () => repos.filter((repo) => !shouldRepoBeFiltered(repo, selectedFilters)),
+    [repos, selectedFilters]
+  );
 
   return useMemo(() => {
     if (loading) return <Spinner />;
@@ -49,18 +50,16 @@ export const RepoList = ({
       <>
         <h2>Found {filteredRepos.length} matching repos</h2>
         <ul className="repoCardContainer">
-          {filteredRepos.map((repo, index) => {
-            return (
-              <RepoCard
-                key={repo.id || index}
-                data={repo}
-                globalLanguagesList={globalLanguagesList}
-                setGlobalLanguagesList={setGlobalLanguagesList}
-              />
-            );
-          })}
+          {filteredRepos.map((repo, index) => (
+            <RepoCard
+              key={repo.id || index}
+              data={repo}
+              globalLanguagesList={globalLanguagesList}
+              setGlobalLanguagesList={setGlobalLanguagesList}
+            />
+          ))}
         </ul>
       </>
     );
-  }, [loading, error, repos, filteredRepos, globalLanguagesList]);
+  }, [error, globalLanguagesList, filteredRepos, loading, repos?.length, setGlobalLanguagesList]);
 };

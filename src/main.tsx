@@ -1,17 +1,12 @@
-import "./main.sass"
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import {
-  createHttpLink,
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import { StrictMode } from 'react';
+import './main.sass';
+import ReactDOM from 'react-dom';
+import { createHttpLink, ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import App from './App';
 
 const httpLink = createHttpLink({
-  uri: "https://api.github.com/graphql",
+  uri: 'https://api.github.com/graphql',
 });
 
 // put the necessary cookies on every apollo request
@@ -22,7 +17,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
@@ -33,10 +28,10 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </StrictMode>,
+  document.getElementById('root')
 );

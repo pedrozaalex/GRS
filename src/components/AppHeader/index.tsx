@@ -1,20 +1,20 @@
-import "./styles.sass";
-import octopus from './octopus.svg'
+import { ReactNode } from 'react';
+import './styles.sass';
+import octopus from './octopus.svg';
 
-type Props = {
-  children?: React.ReactNode;
+export type Props = {
+  children?: ReactNode;
 };
 
-export const AppHeader = ({ children }: Props): JSX.Element => {
-  return (
-    <>
-      <header className="App-header">
-        <span>
-          <img src={octopus} alt="logo" height="40px"/>{" "}
-          GitHub Repo Search</span>
-        {children}
-      </header>
-      <div className="header-padding" />
-    </>
-  );
-};
+export const AppHeader = ({ children }: Props): JSX.Element => (
+  <>
+    <header className="App-header">
+      <div className="TitleLogo">
+        <img src={octopus} alt="logo" height="40px" />
+        <p>GitHub Repo Search</p>
+      </div>
+      {children}
+    </header>
+    <div className="header-padding" />
+  </>
+);

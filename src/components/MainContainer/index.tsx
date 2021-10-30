@@ -1,9 +1,9 @@
-import "./styles.sass";
+import './styles.sass';
 
 type Props = {
   children?: React.ReactNode;
 };
 
-export const MainContainer = ({ children }: Props) => {
-  return <div className="MainContainer">{children}</div>;
-};
+export const MainContainer = ({ children }: Props): JSX.Element => (
+  <div className="MainContainer">{children}</div>
+);
