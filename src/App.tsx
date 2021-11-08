@@ -59,7 +59,6 @@ function App(): JSX.Element {
         </AppHeader>
 
         <MainContainer>
-          <h1>Github Repo Search</h1>
           {search ? (
             <>
               <LanguageFilter

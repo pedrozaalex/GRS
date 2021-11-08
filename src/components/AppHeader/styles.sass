@@ -1,6 +1,4 @@
-@import '../../definitions'
-
-$header-height: 10vh
+@use '../../definitions' as *
 
 .App-header
   background-color: $accent-color
@@ -12,15 +10,18 @@ $header-height: 10vh
   justify-content: space-between
   font-size: calc(10px + 2vmin)
   color: $text-primary
-  height: $header-height
+  height: fit-content
   width: 100%
-  padding: 6vh 5vw
+  padding: 0 1rem
+
+  p
+    text-align: left
 
 .TitleLogo
   display: flex
   align-items: center
-  gap: 1vw
+  gap: 2vw
 
 .header-padding
-  height: $header-height
+  height: 2rem
   margin-bottom: 5rem

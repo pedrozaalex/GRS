@@ -21,6 +21,9 @@ export const LanguageLabel = ({ language, onClick, isSelected }: Prop): JSX.Elem
   return (
     <div
       className={`language-label ${isSelected ? 'selected' : ''}`}
+      // inline style is needed to dynamically transform the color
+      // provided by the API and make it darker or lighter depending
+      // on the selected state
       style={{
         backgroundColor: rgba(languageColor, 0.5),
         color: rgba(darkenColor(languageColor, 0.3), 0.5),

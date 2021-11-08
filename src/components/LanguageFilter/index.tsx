@@ -1,3 +1,4 @@
+import '../LanguageFilter/styles.sass';
 import { LanguageRecord } from '../../interfaces/LanguageRecord';
 import { LanguageLabel } from '../LanguageLabel';
 
@@ -52,7 +53,7 @@ export default function LanguageFilter({
   return (
     <div className="language-filter">
       {!!selectableLanguages.length && <h3>Filter by language</h3>}
-      <ul>
+      <ul className="language-filter-list">
         {selectableLanguages.map((lang) => (
           <LanguageLabel
             key={lang.langName}

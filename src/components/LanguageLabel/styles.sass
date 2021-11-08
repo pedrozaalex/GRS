@@ -1,4 +1,4 @@
-@import '../../definitions'
+@use '../../definitions' as *
 
 .language-label
   box-sizing: border-box
@@ -17,3 +17,9 @@
   &.selected
     font-weight: bold
     padding: 0.2rem 0.5rem 0.2rem 0.5rem
+    &:hover
+      filter: brightness(1.0)
+
+  &:hover
+    filter: brightness(1.5)
+    transform: scale(1.05)
