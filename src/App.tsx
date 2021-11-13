@@ -8,14 +8,32 @@ import { RepoList } from './components/RepoList';
 import { AppHeader } from './components/AppHeader';
 import { Searchbar } from './components/Searchbar';
 import { MainContainer } from './components/MainContainer';
-import LanguageFilter from './components/LanguageFilter';
+import { LanguageFilter } from './components/LanguageFilter';
 import { treatSearchResult } from './github/treatSearchResult';
 import { LanguageRecord } from './interfaces/LanguageRecord';
+import { LanguageFilterType } from './interfaces/LanguageFilterType';
+import { LanguageLabel } from './components/LanguageLabel';
+
+export const toggleLanguage = (
+  langId: string,
+  globalLanguageList: LanguageRecord,
+  setGlobalLanguagesList: React.Dispatch<React.SetStateAction<LanguageRecord>>
+): void => {
+  // set new global language list when a language is toggled
+  const newGlobalLanguageList = {
+    ...globalLanguageList,
+    [langId]: {
+      ...globalLanguageList[langId],
+      isSelected: !globalLanguageList[langId].isSelected,
+    },
+  };
+  setGlobalLanguagesList(newGlobalLanguageList);
+};
 
 function App(): JSX.Element {
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useDebouncedState<string>('', () => setSearch(searchInput));
-  const [globalLanguageList, setGlobalLanguageList] = useState<LanguageRecord>({});
+  const [globalLanguageList, setGlobalLanguagesList] = useState<LanguageRecord>({});
   const [treatedSearchResult, setTreatedSearchResult] = useState<TreatedSearchResult>({
     repoCount: 0,
     repositories: [],
@@ -48,8 +66,23 @@ function App(): JSX.Element {
       });
     });
 
-    setGlobalLanguageList(newLanguageList);
+    setGlobalLanguagesList(newLanguageList);
   }, [treatedSearchResult]);
+
+  const selectableLanguages: LanguageFilterType[] = [];
+
+  // fill selectableLanguages with languages stored in props
+  for (const [langId, langData] of Object.entries(globalLanguageList)) {
+    selectableLanguages.push({
+      langId,
+      langName: langData.langName,
+      langColor: langData.langColor,
+      isSelected: globalLanguageList[langId].isSelected,
+      onClick: () => {
+        toggleLanguage(langId, globalLanguageList, setGlobalLanguagesList);
+      },
+    });
+  }
 
   return (
     <>
@@ -62,15 +95,25 @@ function App(): JSX.Element {
           {search ? (
             <>
               <LanguageFilter
-                globalLanguageList={globalLanguageList}
-                setGlobalLanguageList={setGlobalLanguageList}
+                languages={selectableLanguages.map((lang) => (
+                  <LanguageLabel
+                    key={lang.langName}
+                    language={{
+                      id: lang.langId,
+                      name: lang.langName,
+                      color: lang.langColor,
+                    }}
+                    isSelected={lang.isSelected}
+                    onClick={lang.onClick}
+                  />
+                ))}
               />
               <RepoList
                 data={treatedSearchResult}
                 loading={isSearchLoading}
                 error={searchError}
                 globalLanguagesList={globalLanguageList}
-                setGlobalLanguagesList={setGlobalLanguageList}
+                setGlobalLanguagesList={setGlobalLanguagesList}
               />
             </>
           ) : (

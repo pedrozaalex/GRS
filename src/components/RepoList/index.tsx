@@ -13,7 +13,7 @@ type RepoListProps = {
   error: ApolloError | undefined;
   loading: boolean;
   globalLanguagesList: LanguageRecord;
-  setGlobalLanguagesList: (langList: LanguageRecord) => void;
+  setGlobalLanguagesList: React.Dispatch<React.SetStateAction<LanguageRecord>>;
 };
 
 export const RepoList = ({

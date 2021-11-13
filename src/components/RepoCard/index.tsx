@@ -1,14 +1,14 @@
 import './styles.sass';
 import { TreatedRepo } from '../../github/types';
 import { LanguageLabel } from '../LanguageLabel';
-import { toggleLanguage } from '../LanguageFilter';
+import { toggleLanguage } from '../../App';
 import { isEmpty } from '../../utils/isEmpty';
 import { LanguageRecord } from '../../interfaces/LanguageRecord';
 
 type RepoCardProps = {
   data: TreatedRepo;
   globalLanguagesList: LanguageRecord;
-  setGlobalLanguagesList: (languages: LanguageRecord) => void;
+  setGlobalLanguagesList: React.Dispatch<React.SetStateAction<LanguageRecord>>;
 };
 
 export const RepoCard = (props: RepoCardProps): JSX.Element => {
